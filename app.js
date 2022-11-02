@@ -5,6 +5,7 @@ const Campground = require('./models/campground');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const engine = require('ejs-mate')
+const cors = require('cors');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
   useNewUrlParser: true,
@@ -28,7 +29,10 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 app.use(morgan('tiny'))
-
+app.use(cors({
+  origin: 'http://localhost:3002', methods: 'GET, POST, DELETE, PUT', credentials: true
+}))
+app.options("*", cors());
 
 app.get('/', (req, res) => {
   res.render('home')
@@ -47,6 +51,7 @@ app.get('/campgrounds/new', async (req, res) => {
 app.post("/campgrounds", async (req, res) => {
   const campground = new Campground(req.body.campground)
   await campground.save()
+  console.log(campground)
   res.redirect(`/campgrounds/${campground._id}`)
 })
 
