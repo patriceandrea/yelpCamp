@@ -9,7 +9,8 @@ const cors = require('cors');
 const catchAsync = require('./helpers/catchAsync')
 const ExpressError = require('./helpers/ExpressError');
 const { campgroundSchema, reviewSchema } = require('./schemas')
-const Review = require('./models/review')
+const Review = require('./models/review');
+const review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
   useNewUrlParser: true,
@@ -121,6 +122,14 @@ app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res)
   await review.save()
   await campground.save()
   res.redirect(`/campgrounds/${campground._id}`)
+}))
+
+
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  const { id, reviewId } = req.params;
+  await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } })
+  await Review.findByIdAndRemove(reviewId);
+  res.redirect(`/campgrounds/${id}`)
 }))
 
 app.all('*', (req, res, next) => {
