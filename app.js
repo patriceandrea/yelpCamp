@@ -7,6 +7,7 @@ const engine = require('ejs-mate')
 const cors = require('cors');
 const ExpressError = require('./helpers/ExpressError');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const campgrounds = require('./routes/campground');
 const reviews = require('./routes/reviews')
@@ -36,6 +37,16 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+
+app.use(morgan('tiny'));
+
+app.use(cors({
+  origin: 'http://localhost:3002', methods: 'GET, POST, DELETE, PUT', credentials: true
+}));
+
+app.options("*", cors());
+
 const sessionConfig = {
   secret: 'thishouldbeabettersecret!',
   resave: false,
@@ -45,13 +56,16 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
-app.use(session(sessionConfig))
 
-app.use(morgan('tiny'))
-app.use(cors({
-  origin: 'http://localhost:3002', methods: 'GET, POST, DELETE, PUT', credentials: true
-}))
-app.options("*", cors());
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
+
 
 app.get('/', (req, res) => {
   res.render('home')
