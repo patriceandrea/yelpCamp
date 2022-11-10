@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const engine = require('ejs-mate')
 const cors = require('cors');
 const ExpressError = require('./helpers/ExpressError');
-
+const session = require('express-session');
 
 const campgrounds = require('./routes/campground');
 const reviews = require('./routes/reviews')
@@ -36,6 +36,16 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
+const sessionConfig = {
+  secret: 'thishouldbeabettersecret!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+app.use(session(sessionConfig))
 
 app.use(morgan('tiny'))
 app.use(cors({
