@@ -31,6 +31,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.7.0",
     "morgan": "^1.10.0",
+    "multer": "*",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
