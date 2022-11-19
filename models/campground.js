@@ -7,6 +7,7 @@ const ImageSchema = new Schema({
   filename: String
 });
 
+const opts = { toJSON: { virtuals: true } };
 
 const CampGroundSchema = new Schema({
   title: String,
@@ -15,7 +16,7 @@ const CampGroundSchema = new Schema({
     type: {
       type: String,
       enum: ['Point'],
-      required: true
+      required: false
     },
     coordinates: {
       type: [Number],
@@ -34,9 +35,9 @@ const CampGroundSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Review'
     }
-
   ]
-})
+}, opts);
+
 
 CampGroundSchema.post('findOneAndDelete', async function (doc) {
   if (doc) {

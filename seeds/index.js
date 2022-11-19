@@ -27,7 +27,8 @@ const seedDB = async () => {
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
       description: 'Lorem 2 is a lorem ipsum generator brought to you by Manoverboard, a purpose-driven design studio based in beautiful Canada.',
-      price,
+      price: price,
+      geometry: { type: 'Point', coordinates: [-113.1331, 47.0202] },
       images: [
         {
           url: 'https://res.cloudinary.com/dv8b1blow/image/upload/v1668626583/YelpCamp/lm6vbppfxd4giknunlja.jpg',
