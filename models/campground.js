@@ -38,6 +38,12 @@ const CampGroundSchema = new Schema({
   ]
 }, opts);
 
+CampGroundSchema.virtual('properties.popUpMarkup').get(function () {
+
+  return `<strong><a>${this.title}</a></strong><p>${this.description}...</p>`
+
+
+})
 
 CampGroundSchema.post('findOneAndDelete', async function (doc) {
   if (doc) {
