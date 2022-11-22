@@ -16,6 +16,7 @@ const LocalStrategy = require('passport-local')
 const passport = require('passport')
 const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 const campgroundRouter = require('./routes/campground');
 const reviewRouter = require('./routes/reviews')
@@ -57,10 +58,12 @@ app.use(cors({
 app.options("*", cors());
 
 const sessionConfig = {
+  name: 'session',
   secret: 'thishouldbeabettersecret!',
   resave: false,
   saveUninitialized: true,
   cookie: {
+    httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
@@ -68,6 +71,10 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+// app.use(helmet());
+
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
