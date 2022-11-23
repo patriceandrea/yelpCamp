@@ -8,9 +8,9 @@ A CRUD application that allows users to share and review campgrounds. An interac
 ## Add a Campground 
 ![Add Campground](./public/gif/yelpcamp-%20add%20camp.gif)
 ## Edit & Delete Campground 
-![Edit and Delete Campground](./public/gif/yelpcamp%20-%20edit%20%26%20delete%20camp.gif)
+![Edit and Delete Campground](./public/gif/yelpcamp-%20edit%26delete%20new.gif)
 ## Add & Delete a Review 
-![Edit and Delete review](./public/gif/Yelpcamp%20-%20review%20.gif)
+![Edit and Delete review](./public/gif/yelpcamp-review%20new.gif)
 
 # Getting Started 
 1. Fork this repository, then `git clone` your fork of this repository.
